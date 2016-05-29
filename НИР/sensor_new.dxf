@@ -1,0 +1,1086 @@
+  0
+SECTION
+  2
+HEADER
+  9
+$ACADVER
+  1
+AC1009
+  9
+$ANGDIR
+  70
+0
+  9
+$CECOLOR
+  62
+256
+  9
+$CELTYPE
+  6
+BYLAYER
+  9
+$EXTMIN
+  10
+0.0
+  20
+0.0
+  9
+$EXTMAX
+  10
+1.1366
+  20
+0.5177
+  9
+$FILLMODE
+  70
+1
+  9
+$MIRRTEXT
+  70
+0
+  0
+ENDSEC
+  0
+SECTION
+  2
+TABLES
+  0
+TABLE
+  2
+LAYER
+  70
+17
+  0
+LAYER
+  2
+Top_Silk
+  70
+64
+  62
+2
+  6
+CONTINUOUS
+  0
+ENDTAB
+  0
+ENDSEC
+  0
+SECTION
+  2
+ENTITIES
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.6061
+  20
+0.439
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.6002
+  20
+0.439
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.6061
+  20
+0.439
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.4278
+  20
+0.0059
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.4219
+  20
+0.0059
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.4278
+  20
+0.0059
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.5278
+  20
+0.0059
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.5219
+  20
+0.0059
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.5278
+  20
+0.0059
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.6278
+  20
+0.0059
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.6219
+  20
+0.0059
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.6278
+  20
+0.0059
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.7278
+  20
+0.0059
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.7219
+  20
+0.0059
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.7278
+  20
+0.0059
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.8278
+  20
+0.0059
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.8219
+  20
+0.0059
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.8278
+  20
+0.0059
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.9278
+  20
+0.0059
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.9219
+  20
+0.0059
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.9278
+  20
+0.0059
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.1337
+  20
+0.5118
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.1278
+  20
+0.5118
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.1337
+  20
+0.5118
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.1337
+  20
+0.4118
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.1278
+  20
+0.4118
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.1337
+  20
+0.4118
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.1337
+  20
+0.3118
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.1278
+  20
+0.3118
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.1337
+  20
+0.3118
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.1337
+  20
+0.2118
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.1278
+  20
+0.2118
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.1337
+  20
+0.2118
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.312
+  20
+0.3528
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.3061
+  20
+0.3528
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.312
+  20
+0.3528
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.312
+  20
+0.2528
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.3061
+  20
+0.2528
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.312
+  20
+0.2528
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.312
+  20
+0.1528
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.3061
+  20
+0.1528
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.312
+  20
+0.1528
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.212
+  20
+0.4028
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.2061
+  20
+0.4028
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.212
+  20
+0.4028
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.212
+  20
+0.3028
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.2061
+  20
+0.3028
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.212
+  20
+0.3028
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.212
+  20
+0.2028
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.2061
+  20
+0.2028
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.212
+  20
+0.2028
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.0089
+  20
+0.0799
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.003
+  20
+0.0799
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.0089
+  20
+0.0799
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.0089
+  20
+0.4736
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.003
+  20
+0.4736
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+0.0089
+  20
+0.4736
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.0246
+  20
+0.4079
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.0187
+  20
+0.4079
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.0246
+  20
+0.4079
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.0246
+  20
+0.3079
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.0187
+  20
+0.3079
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.0246
+  20
+0.3079
+  42
+1
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Top_Silk
+  6
+CONTINUOUS
+  66
+1
+  70
+0
+  40
+0.0059
+  41
+0.0059
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.0246
+  20
+0.2079
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.0187
+  20
+0.2079
+  42
+1
+  0
+VERTEX
+  8
+Top_Silk
+  10
+1.0246
+  20
+0.2079
+  42
+1
+  0
+SEQEND
+  0
+ENDSEC
+  0
+EOF
