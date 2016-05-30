@@ -1,0 +1,68 @@
+0001   0000             ;-------------------------------------------------------------------------------
+0002   0000             ;ASAMPLE1.A51
+0003   0000             ;
+0004   0000             ;Copyright 1995 KEIL Software, Inc.
+0005   0000             ;-------------------------------------------------------------------------------
+0006   0000             
+0007   0000             
+tasm: Label not found: (SP) Line 0008
+tasm: Label not found: (STACK) Line 0008
+0008   0000 75 00 FF    START:	MOV   SP,#STACK-1
+0009   0003             
+0010   0003             
+tasm: Label not found: (SCON) Line 0011
+0011   0003 75 00 50    	MOV   SCON,#01010000B
+tasm: Label not found: (TMOD) Line 0012
+0012   0006 75 00 20    	MOV   TMOD,#00100000B		
+tasm: Label not found: (TH1) Line 0013
+0013   0009 75 00 F3    	MOV   TH1,#0F3H
+tasm: Label not found: (TR1) Line 0014
+0014   000C D2 00       	SETB  TR1
+tasm: Label not found: (TI) Line 0015
+0015   000E D2 00       	SETB  TI
+0016   0010             
+0017   0010             
+tasm: Label not found: (TXT) Line 0018
+0018   0010 90 00 00    	MOV   DPTR,#TXT
+0019   0013             	CALL  PUTSTRING
+tasm: unrecognized instruction.           Line 0019 in asample1.ASM
+0020   0013             	CALL  PUT_CRLF
+tasm: unrecognized instruction.           Line 0020 in asample1.ASM
+0021   0013             
+tasm: Label not found: (REPEAT) Line 0022
+0022   0013 80 EB       	SJMP  REPEAT
+0023   0015             
+0024   0015             	RSEG  CONST
+tasm: unrecognized instruction.           Line 0024 in asample1.ASM
+0025   0015             TXT: 	DB    'TEST PROGRAM',00H
+tasm: Label not found: (TXT) Line 0025
+tasm: label value misalligned.           (TXT) Line 0025 in asample1.ASM
+tasm: unrecognized instruction.          (TXT) Line 0025 in asample1.ASM
+0026   0015             
+0027   0015             
+0028   0015             	RSEG  VAR1
+tasm: unrecognized instruction.           Line 0028 in asample1.ASM
+0029   0015             DUMMY:	DS    21H
+tasm: Label not found: (DUMMY) Line 0029
+tasm: label value misalligned.           (DUMMY) Line 0029 in asample1.ASM
+tasm: unrecognized instruction.          (DUMMY) Line 0029 in asample1.ASM
+0030   0015             
+0031   0015             
+0032   0015             	RSEG  BITVAR
+tasm: unrecognized instruction.           Line 0032 in asample1.ASM
+0033   0015             TXTBIT:	DBIT  1
+tasm: Label not found: (TXTBIT) Line 0033
+tasm: label value misalligned.           (TXTBIT) Line 0033 in asample1.ASM
+tasm: unrecognized instruction.          (TXTBIT) Line 0033 in asample1.ASM
+0034   0015             
+0035   0015             	END
+tasm: unrecognized instruction.           Line 0035 in asample1.ASM
+
+ADDR  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+-----------------------------------------------------
+0000  75 00 FF 75 00 50 75 00 20 75 00 F3 D2 00 D2 00
+0010  90 00 00 80 EB 00 00 00 00 00 00 00 00 00 00 00
+
+
+tasm: No END directive before EOF.        Line 0035 in asample1.ASM
+tasm: Number of errors = 25

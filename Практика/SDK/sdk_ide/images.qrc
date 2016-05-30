@@ -1,0 +1,13 @@
+<RCC>
+  <qresource>
+    <file>closetab.png</file>
+    <file>exit.png</file>
+    <file>fileopen.png</file>
+    <file>filesaveall.png</file>
+    <file>filesaveas.png</file>
+    <file>filenew.png</file>
+    <file>filesave.png</file>
+    <file>compile.png</file>
+    <file>load.png</file>
+  </qresource>
+</RCC>

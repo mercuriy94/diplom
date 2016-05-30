@@ -1,0 +1,118 @@
+Welcome to the Keil Software FTP server at ftp.keil.com.  Report any problems
+with this server to ftp-admin@keil.com.
+
+File List for ftp.keil.com/pub/8051
+
+File Name    Size  Date     Description
+=============================================================================
+AM80C324.ZIP  2.8K 05/27/96 AMD 80C324 Header File
+
+AM80C51.ZIP   2.0K 05/27/96 AMD 80C51 Header File
+
+AM80C52.ZIP   2.3K 05/27/96 AMD 80C52 Header File
+
+AM80C521.ZIP  2.5K 05/27/96 AMD 80C521, 80C541, 80C321 Header File
+
+AMD.ZIP       7.3K 05/27/96 AMD Header Files
+
+AT891051.ZIP  1.8K 05/27/96 ATMEL 891051 Header File
+
+AT892051.ZIP  2.0K 05/27/96 ATMEL 892051 Header File
+
+AT89X51.ZIP   2.1K 05/27/96 ATMEL AT89C51, AT89LV51 Header File
+
+AT89X52.ZIP   2.4K 05/27/96 ATMEL AT89C52, AT89LV52 Header File
+
+ATMEL.ZIP     5.9K 05/27/96 ATMEL Header Files
+
+C51LINT.ZIP    13K 05/27/96 PCLint Update Files for C51.
+                            This ZIP contains the latest error translator
+                            and LNT files for C51.
+
+C51XLAT.ZIP    55K 05/27/96 C51 Error Translators
+                            This file contains the latest error translators
+                            for C51 Version 5.0.
+
+DALLAS.ZIP     13K 05/27/96 Dallas Semiconductor Header Files
+
+DS225X.ZIP    3.0K 05/27/96 Dallas Semiconductor DS2251(T), DS2252(T)
+                            Header File
+
+DS5000.ZIP    1.9K 05/27/96 Dallas Semiconductor DS5000 Header File
+
+DS5001.ZIP    2.2K 05/27/96 Dallas Semiconductor DS5001(FP) Header File
+
+DS80C310.ZIP  2.6K 05/27/96 Dallas Semiconductor DS80C310 Header File
+
+DS80C320.ZIP  2.7K 05/27/96 Dallas Semiconductor DS80C320, DS80C323
+                            Header File
+
+DS8XC520.ZIP  2.9K 05/27/96 Dallas Semiconductor DS87C520 Header File
+
+DS87C530.ZIP  3.1K 05/27/96 Dallas Semiconductor DS8XC530 Header File
+
+DS5RTC.ZIP    5.5K 05/27/96 DS5000 Real-Time Clock Routines
+                            This ZIP includes RTCLOCK.C, a C file that
+                            contains routines for reading and setting
+                            the real-time clock in the DS5000.  A main
+                            program is also included with an example of
+                            how to set and read the RTC using the code
+                            provided.  MicroVision and dScope project
+                            and ini files are also included.
+
+EXAMPLES.ZIP   96K 05/27/96 8051 Source File Examples for C51 and A51
+                            This file contains the latest example files
+                            distributes with Version 5.02 of the 8051
+                            tools.
+
+INTSIO.ZIP     22K 05/27/96 Interrupt-Driven Serial I/O and printf
+                            This example program shows you how to use
+                            printf with interrupt-driven serial I/O.
+                            Interrupt-driven serial routines are included
+                            along with a demo program to printf and
+                            getchar some stuff.  You can also use scanf
+                            with these routines.  Serial I/O is handled
+                            in a separate file (SIO.C) that you can use
+                            in your own programs.  Works with any 8051.
+                            Ring buffers are located in XDATA but it is
+                            easy to locate them anywhere.
+
+K51C.ZIP       78K 05/27/96 8051 Help Files for MicroVision
+                            This is the help file for MicroVision for
+                            windows for the 8051 tools DLL.
+
+OMF51.ZIP      24K 04/01/97 Intel OMF51 Specification in MS-WORD Format.
+
+OKI.ZIP         3K 07/16/96 OKI Header Files
+
+OKI154.ZIP      2K 07/16/96 OKI 8xC154 Header Files
+
+OKI80C51.ZIP    2K 07/16/96 OKI 80c51F/80c31F Header Files
+
+RTX51-01.ZIP   42K 05/27/96 RTX51 Example for DS320/520
+                            This example program uses RTX51-Full to
+                            toggle pins on PORT 1 on the 320 or 520.
+                            This program gives you a short example of
+                            how to get RTX51 up and running.  A HEX file
+                            is included so that you can program an EPROM
+                            and see the bit wiggle.  This program works
+                            with the Keil MCB520 evaluation board.
+
+T1P1_11.ZIP     4K 07-21-96 MON51 HEX file for the MCB520.  This monitor
+			    uses timer 1 and serial port 1 with an oscillator
+			    running at 11.0592MHz.
+
+T1P1_33.ZIP     4K 07-21-96 MON51 HEX file for the MCB520.  This monitor
+			    uses timer 1 and serial port 1 with an oscillator
+			    running at 33MHz.
+
+T2P0_11.ZIP     4K 07-21-96 MON51 HEX file for the MCB520.  This monitor
+			    uses timer 2 and serial port 0 with an oscillator
+			    running at 11.0592MHz.
+
+T2P0_33.ZIP     4K 07-21-96 MON51 HEX file for the MCB520.  This monitor
+			    uses timer 2 and serial port 0 with an oscillator
+			    running at 33MHz.
+=============================================================================
+
+[EOF]

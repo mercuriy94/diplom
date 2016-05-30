@@ -1,0 +1,438 @@
+C51 COMPILER V7.01  DEMO                                                                   12/22/2007 12:08:46 PAGE 1   
+
+
+C51 COMPILER V7.01, COMPILATION OF MODULE DEMO
+OBJECT MODULE PLACED IN demo.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE demo.c DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          #include <stdio.h>
+   2          #include "ADuC842.h"
+   3          #include "common.h"
+   4          #include "lcd.h"
+   5          #include "keyb.h"
+   6          #include "i2c.h"
+   7          #include "uL.h"
+   8          #include "sound.h"
+   9          sbit LED=0xB7;
+  10          void int0(void) interrupt 0 {
+  11   1        snd_nosound();
+  12   1        muz_playing = 0;
+  13   1        while (!P3_2);
+  14   1      }
+  15          
+  16          
+  17          void blik (void)
+  18          {
+  19   1      LED=1;
+  20   1      delay(100);
+  21   1      LED=0;
+  22   1      delay(100);
+  23   1      } 
+  24          
+  25          int main() {  
+  26   1        unsigned int xdata t, adc;
+  27   1        float xdata f;
+  28   1        char xdata s[9], u[9];
+  29   1        unsigned char xdata m=0, hr, min, sec, k=0, i, g;
+  30   1      
+  31   1        #ifdef _SOUND_H_
+  32   1          muz_playing = 0;
+  33   1          snd_playing = 0;
+  34   1        #endif
+  35   1      
+  36   1        // "разгоняем" ядро до 16.77 МГц
+  37   1        PLLCON = PLLCON & 0xF8 + 0;
+  38   1        
+  39   1        // включаем XRAM
+  40   1        CFG842 |= 0x81;
+  41   1      
+  42   1        // гасим светодиоды
+  43   1        P0 = 0;
+  44   1        
+  45   1        // включаем прерывания
+  46   1        EA = 1;
+  47   1      
+  48   1        // запуск преобразования термодатчика
+  49   1        #ifdef _uL_H_
+  50   1          ow_start();
+  51   1        #endif
+  52   1      
+  53   1        // инициализация I2C
+  54   1        #ifdef _I2C_H_
+  55   1        SPE=0;     // включаем i2c
+C51 COMPILER V7.01  DEMO                                                                   12/22/2007 12:08:46 PAGE 2   
+
+  56   1        I2CM=1;    // режим "програмный ведущий"
+  57   1        #endif
+  58   1      
+  59   1        // включаем АЦП
+  60   1        ADCCON1 = 0x8C;     
+  61   1      
+  62   1        // инициализация LCD
+  63   1        #ifdef _LCD_H_
+  64   1          LCD_init();
+  65   1          LCD_write("LESO lab(c) 2007\0");
+  66   1          for (k=0; k<7; k++) {
+  67   2            if (k%6>=0 && k%6<=3)
+  68   2               P0 = (P0 & 0xF0) + 1 << (3-k%6);
+  69   2            else
+  70   2               P0 = (P0 & 0xF0) + 1 << (k%6-3);
+  71   2            delay(1000);
+  72   2          }
+  73   1          P0 = (P0 & 0xF0);
+  74   1      
+  75   1          // пикаем
+  76   1          #ifdef _SOUND_H_
+  77   1            snd_sound_w(440, 150);
+  78   1          #endif
+  79   1          delay(10000);
+  80   1      
+  81   1          LCD_clear();  
+  82   1        #endif
+  83   1      
+  84   1        // инициализация UART
+  85   1        T3CON = 0x86 - (PLLCON & 0x03);
+  86   1        T3FD = 0x02D;
+  87   1        SCON = 0x052;
+  88   1        printf("LESO laboratory (c) 2007\nDemo test program\n\n");
+  89   1      
+  90   1        // инициализация переменных
+  91   1        g = 0;
+  92   1        for (i=0; i<9; i++) u[i] = 0x20;
+  93   1      
+  94   1        while(1) { 
+  95   2      
+  96   2          if (!g) {
+  97   3            #ifdef _I2C_H_
+  98   3              // считываем и отображаем показания часов 
+  99   3              i2c_start();
+ 100   3              i2c_send(0xA0);       // передача адреса
+ 101   3              i2c_send(0x02);       // прошло успешно, отправляем адрес регистра
+ 102   3              i2c_start();
+ 103   3              i2c_send(0xA1);
+ 104   3              sec = i2c_recv(0);    // принимаем секунды
+ 105   3              min = i2c_recv(0);    // принимаем минуты
+ 106   3              hr  = i2c_recv(1);    // принимаем часы
+ 107   3              i2c_stop();
+ 108   3      
+ 109   3              LCD_cursor(1, 1); 
+ 110   3              LCD_writehex(hr);
+ 111   3              LCD_chr(':');
+ 112   3              LCD_writehex(min);
+ 113   3              LCD_chr(':');
+ 114   3              LCD_writehex(sec);
+ 115   3            #endif
+ 116   3      
+ 117   3            #ifdef _uL_H_
+C51 COMPILER V7.01  DEMO                                                                   12/22/2007 12:08:46 PAGE 3   
+
+ 118   3              // считываем и отображаем показания термодатчика
+ 119   3              t = ow_read_temperature();
+ 120   3              ow_start();
+ 121   3              ow_temp_str(t, s);
+ 122   3              LCD_cursor(1, 2);
+ 123   3              LCD_write(s);
+ 124   3            #endif
+ 125   3          }
+ 126   2      
+ 127   2          #ifdef _KEYB_H_
+ 128   2            k = key_read();
+ 129   2            if (k=='N' && snd_playing) {
+ 130   3              snd_nosound();
+ 131   3              P0 = (P0 & 0xF0);
+ 132   3            }
+ 133   2            if (k>=0 && k<=9 && !snd_playing) { 
+ 134   3              snd_beep(k);
+ 135   3              P0 = (P0 & 0xF0) + k;
+ 136   3            }
+ 137   2            
+ 138   2            if (k!='N') {
+ 139   3              g = 80;
+ 140   3              for (i=1; i<9; i++) u[i-1] = u[i];
+ 141   3              if (k>=0 && k<=9) u[7] = 0x30+k; else u[7] = k;
+ 142   3              u[8] = 0;
+ 143   3              LCD_cursor(1, 1);
+ 144   3              LCD_write(" Text   ");
+ 145   3              LCD_cursor(1, 2);
+ 146   3              LCD_write(u);
+ 147   3              while(key_pressed());
+ 148   3            }      
+ 149   2          #endif
+ 150   2      
+ 151   2          // ик-датчик
+ 152   2          P0_7 = 1;
+ 153   2          if (!P0_7) {
+ 154   3            i=100;
+ 155   3            while(i--);
+ 156   3            if (!P0_7 && !snd_playing) snd_sound(1000, 100);
+ 157   3          }
+ 158   2      
+ 159   2          // большая кнопка и музыка
+ 160   2          #ifdef _SOUND_H_
+ 161   2            P3_2 = 1;
+ 162   2            if (P3_2==0 && !muz_playing) {
+ 163   3              while (!P3_2);
+ 164   3              LCD_clear();
+ 165   3              LCD_write(" Music  ");
+ 166   3              EX0 = 1; // включаем прерывание на большую кнопку
+ 167   3              muz_play();
+ 168   3              EX0 = 0;
+ 169   3            }
+ 170   2          #endif
+ 171   2           blik();
+ 172   2          // АЦП
+ 173   2          for (i=4; i<=6; i++) {
+ 174   3            ADCCON2 = i;   // выставляем канал
+ 175   3            SCONV = 1;     // запускаем цикл преобразования
+ 176   3            while (SCONV);
+ 177   3           blik();
+ 178   3            if (ADCDATAL >= 4) {  // есть напряжение на канале
+ 179   4              g = 60;
+C51 COMPILER V7.01  DEMO                                                                   12/22/2007 12:08:46 PAGE 4   
+
+ 180   4              adc = ADCDATAH % 16;
+ 181   4                  adc = adc << 8;
+ 182   4                  adc += ADCDATAL;
+ 183   4              f = adc * 1.220703125;  // мВ на квант
+ 184   4      
+ 185   4              LCD_cursor(1, 1);
+ 186   4              LCD_write("ADC CH:");
+ 187   4              LCD_chr(0x30+i);
+ 188   4              LCD_cursor(1, 2);
+ 189   4              sprintf(s, " %4.0f mV", f);
+ 190   4              LCD_cursor(1, 2);
+ 191   4              LCD_write(s); 
+ 192   4            }
+ 193   3          }
+ 194   2          if (g) {
+ 195   3            delay(200);
+ 196   3            g--;
+ 197   3            if (!g) for (i=0; i<9; i++) u[i] = 0x20;
+ 198   3          }
+ 199   2      
+ 200   2      
+ 201   2          /*  
+ 202   2          m = menu_select(m);
+ 203   2          switch (m) {
+ 204   2            case 1: {
+ 205   2              LCD_clear();
+ 206   2              cur=1;
+ 207   2              while(1) {
+ 208   2                LCD_cursor(1, 1);
+ 209   2                LCD_write_c(help_data[cur-1]);
+ 210   2                LCD_cursor(1, 2);
+ 211   2                LCD_write_c(help_data[cur]);
+ 212   2                while (key_pressed());
+ 213   2      
+ 214   2                k = key_read_w();
+ 215   2                if (k==2) cur--;
+ 216   2                if (k==8) cur++;
+ 217   2                if (cur < 1) cur = HELP_CNT-1;
+ 218   2                if (cur > HELP_CNT-1) cur = 1;
+ 219   2                if (k=='*') {
+ 220   2                  LCD_clear();
+ 221   2                  cur=0;
+ 222   2                  break;
+ 223   2                }
+ 224   2              } 
+ 225   2              break; 
+ 226   2            }
+ 227   2      
+ 228   2            case 2: {    
+ 229   2              LCD_clear();
+ 230   2              LCD_write(" Clock ");      
+ 231   2              while (1) {
+ 232   2                // считываем и отображаем показания часов       
+ 233   2                i2c_start();
+ 234   2                i2c_send(0xA0);               // передача адреса
+ 235   2                i2c_send(0x02);               // прошло успешно, отправляем адрес регистра
+ 236   2                i2c_start();
+ 237   2                i2c_send(0xA1);
+ 238   2                sec = i2c_recv(0);            // принимаем секунды
+ 239   2                min = i2c_recv(0);            // принимаем минуты
+ 240   2                hr  = i2c_recv(1);            // принимаем часы
+ 241   2                i2c_stop();
+C51 COMPILER V7.01  DEMO                                                                   12/22/2007 12:08:46 PAGE 5   
+
+ 242   2           
+ 243   2                LCD_cursor(1, 2); 
+ 244   2                LCD_writehex(hr);
+ 245   2                LCD_chr(':');
+ 246   2                LCD_writehex(min);
+ 247   2                LCD_chr(':');
+ 248   2                LCD_writehex(sec);
+ 249   2                
+ 250   2                if (key_read() == '*') break; 
+ 251   2                delay(1000);
+ 252   2              }
+ 253   2              break;
+ 254   2            }
+ 255   2      
+ 256   2            case 3: {    
+ 257   2              LCD_clear();
+ 258   2              LCD_cursor(1, 1);
+ 259   2              LCD_write("Termo-r");      
+ 260   2              while (1) {
+ 261   2                // считываем и отображаем показания термодатчика
+ 262   2                t = ow_read_temperature();
+ 263   2                ow_start();
+ 264   2                ow_temp_str(t, s);
+ 265   2                LCD_cursor(1, 2);
+ 266   2                LCD_write(s);
+ 267   2      
+ 268   2                if (key_read() == '*') break; 
+ 269   2                delay(1000);
+ 270   2              }
+ 271   2              break;
+ 272   2            }
+ 273   2      
+ 274   2            case 4: {    
+ 275   2              LCD_clear();
+ 276   2              LCD_cursor(1, 1);
+ 277   2              LCD_write(" Diodes ");      
+ 278   2              k = 0;
+ 279   2              while (1) {
+ 280   2                if (k>=0 && k<=3)
+ 281   2                  P0 = (P0 & 0xF0) + 1 << (3-k);
+ 282   2                else
+ 283   2                  P0 = (P0 & 0xF0) + 1 << (k-3);
+ 284   2                k++;
+ 285   2                if (k>5) k=0;
+ 286   2      
+ 287   2                if (key_read() == '*') break; 
+ 288   2                delay(2000);
+ 289   2              }
+ 290   2              P0 = (P0 & 0xF0);
+ 291   2              break;
+ 292   2            }
+ 293   2      
+ 294   2            case 5: {    
+ 295   2              LCD_clear();
+ 296   2              LCD_cursor(1, 1);
+ 297   2              LCD_write("Speaker");      
+ 298   2      
+ 299   2              while (1) {
+ 300   2                while(key_pressed());
+ 301   2                snd_nosound();
+ 302   2                do {
+ 303   2                  k = key_read_w();
+C51 COMPILER V7.01  DEMO                                                                   12/22/2007 12:08:46 PAGE 6   
+
+ 304   2                  if (k=='*') break;
+ 305   2                } while (!(k>=0 && k<=9));
+ 306   2                if (k=='*') break;
+ 307   2                else {
+ 308   2                  if (k>0 && k<=8) 
+ 309   2                    snd_sound(freq(1, notes[k-1]), 3000);          
+ 310   2                  else {
+ 311   2                    if (k==0) k = 10;
+ 312   2                    snd_sound(freq(2, notes[k-1]), 3000);          
+ 313   2                  }
+ 314   2                }
+ 315   2                delay(1000);
+ 316   2              }
+ 317   2              break;
+ 318   2            }
+ 319   2      
+ 320   2            case 6: {    
+ 321   2              LCD_clear();
+ 322   2              LCD_cursor(1, 1);
+ 323   2              LCD_write("   IR   ");      
+ 324   2      
+ 325   2              while (1) {
+ 326   2                P0_7 = 1;
+ 327   2                if (!P0_7) {
+ 328   2                  snd_nosound();
+ 329   2                  snd_sound(440, 100);
+ 330   2                }
+ 331   2                if (key_read() == '*') break; 
+ 332   2              }
+ 333   2              snd_nosound();
+ 334   2              break;
+ 335   2            }
+ 336   2      
+ 337   2            case 7: {    
+ 338   2              LCD_clear();
+ 339   2              i=4;
+ 340   2              ADCCON1 = 0x8C;   // включаем АЦП
+ 341   2              ADCCON2 = i;  
+ 342   2      
+ 343   2              while (1) {
+ 344   2                LCD_cursor(1, 1);
+ 345   2                LCD_write("ADC CH:"); LCD_chr(0x30+i);
+ 346   2      
+ 347   2                SCONV = 1;
+ 348   2                while (SCONV);
+ 349   2                adc = ADCDATAH % 16;
+ 350   2                    adc = adc << 8;
+ 351   2                    adc += ADCDATAL;
+ 352   2                f = adc * 1.220703125;
+ 353   2                sprintf(s, " %4.0f mV", f);
+ 354   2                LCD_cursor(1, 2);
+ 355   2                LCD_write(s);    
+ 356   2      
+ 357   2                k = key_read();
+ 358   2                if (k == '*') break; 
+ 359   2                if (k>=4 && k<=6) {
+ 360   2                  i = k;
+ 361   2                  ADCCON2 = i;
+ 362   2                }
+ 363   2                delay(1000);
+ 364   2              }
+ 365   2              break;
+C51 COMPILER V7.01  DEMO                                                                   12/22/2007 12:08:46 PAGE 7   
+
+ 366   2            }
+ 367   2      
+ 368   2      
+ 369   2            case 8: {    
+ 370   2              LCD_clear();
+ 371   2              LCD_cursor(1, 1);
+ 372   2              LCD_write("  UART  ");    
+ 373   2              printf("Send some text (8 max)\n>");
+ 374   2      
+ 375   2      
+ 376   2              while (1) {
+ 377   2              
+ 378   2                if (RI) {
+ 379   2                  s[0] = 0;
+ 380   2                  gets(s, 9);
+ 381   2                
+ 382   2                  if (s[0] != 0) {
+ 383   2                    s[8] = 0;
+ 384   2                    LCD_cursor(1, 2);
+ 385   2                    LCD_write("        ");
+ 386   2                    LCD_cursor(1, 2);
+ 387   2                    LCD_write(s);
+ 388   2                  } 
+ 389   2                  printf("\n>");         
+ 390   2                }
+ 391   2      
+ 392   2                if (key_read() == '*') break; 
+ 393   2              }
+ 394   2              printf("\n"); 
+ 395   2              break;
+ 396   2            }
+ 397   2      
+ 398   2          } */
+ 399   2      
+ 400   2         
+ 401   2          //delay(10000);    
+ 402   2        }
+ 403   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   3868    ----
+   CONSTANT SIZE    =    502    ----
+   XDATA SIZE       =   ----      33
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     16      68
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

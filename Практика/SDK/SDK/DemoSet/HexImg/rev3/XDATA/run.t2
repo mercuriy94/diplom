@@ -1,0 +1,3 @@
+9600 openchannel com2
+loadhex $1
+0 term

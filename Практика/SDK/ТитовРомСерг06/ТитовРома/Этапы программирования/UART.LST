@@ -1,0 +1,624 @@
+0001   0000             #include define.asm
+0001+  0000             DPTR	.EQU	30H
+0002+  0000             DPP     .equ	84h
+0003+  0000             ACC	.equ	0E0h
+0004+  0000             RS0     .EQU    0D3H
+0005+  0000             RS1     .EQU    0D4H
+0006+  0000             PSW     .equ    0D0H
+0007+  0000             T0	.equ	0B4H
+0008+  0000             	
+0009+  0000             	
+0010+  0000             P0      .equ	080h
+0011+  0000             SP      .equ    081h
+0012+  0000             DPL     .equ    082h
+0013+  0000             DPH     .equ    083h
+0014+  0000             DPP     .equ    084h
+0015+  0000             PCON    .equ    087h
+0016+  0000             TCON    .equ    088h
+0017+  0000             TMOD    .equ    089h
+0018+  0000             TL0     .equ	08Ah
+0019+  0000             TL1     .equ    08Bh
+0020+  0000             TH0     .equ    08Ch
+0021+  0000             TH1     .equ 	08Dh
+0022+  0000             P1      .equ	090h
+0023+  0000             SCON    .equ 	098h
+0024+  0000             SBUF    .equ    099h
+0025+  0000             I2CDAT  .equ	09Ah
+0026+  0000             I2CADD  .equ	09Bh
+0027+  0000             T3FD    .equ	09Dh
+0028+  0000             T3CON   .equ	09Eh
+0029+  0000             P2      .equ	0A0h
+0030+  0000             TIMECON .equ	0A1h
+0031+  0000             HTHSEC  .equ	0A2h
+0032+  0000             SEC     .equ	0A3h
+0033+  0000             MIN     .equ	0A4h
+0034+  0000             HOUR    .equ	0A5h
+0035+  0000             INTVAL  .equ	0A6h
+0036+  0000             DPCON   .equ	0A7h
+0037+  0000             IE      .equ	0A8h
+0038+  0000             IEIP2   .equ	0A9h
+0039+  0000             PWMCON  .equ	0AEh
+0040+  0000             CFG831  .equ	0AFh
+0041+  0000             P3      .equ	0B0h
+0042+  0000             PWM0L   .equ	0B1h
+0043+  0000             PWM0H   .equ	0B2h
+0044+  0000             PWM1L   .equ	0B3h
+0045+  0000             PWM1H   .equ	0B4h
+0046+  0000             SPH     .equ	0B7h
+0047+  0000             IP      .equ	0B8h
+0048+  0000             ECON    .equ	0B9h
+0049+  0000             EDATA1  .equ	0BCh
+0050+  0000             EDATA2  .equ	0BDh
+0051+  0000             EDATA3  .equ	0BEh
+0052+  0000             EDATA4  .equ	0BFh
+0053+  0000             WDCON   .equ	0C0h
+0054+  0000             CHIPID  .equ	0C2h
+0055+  0000             EADRL   .equ	0C6h
+0056+  0000             EADRH   .equ	0C7h
+0057+  0000             T2CON   .equ	0C8h
+0058+  0000             RCAP2L  .equ	0CAh
+0059+  0000             RCAP2H  .equ	0CBh
+0060+  0000             TL2     .equ	0CCh
+0061+  0000             TH2     .equ	0CDh
+0062+  0000             PSW     .equ	0D0h
+0063+  0000             DMAL    .equ	0D2h
+0064+  0000             DMAH    .equ	0D3h
+0065+  0000             DMAP    .equ	0D4h
+0066+  0000             ADCCON2 .equ	0D8h
+0067+  0000             ADCDATAL	.equ	0D9h
+0068+  0000             ADCDATAH	.equ	0DAh
+0069+  0000             PSMCON  .equ	0DFh
+0070+  0000             ACC     .equ	0E0h
+0071+  0000             DCON    .equ	0E8h
+0072+  0000             I2CCON  .equ	0E8h
+0073+  0000             ADCCON1 .equ	0EFh
+0074+  0000             B       .equ	0F0h
+0075+  0000             ADCOFSL .equ	0F1h
+0076+  0000             ADCOFSH .equ	0F2h
+0077+  0000             ADCGAINL	.equ	0F3h
+0078+  0000             ADCGAINH	.equ	0F4h
+0079+  0000             ADCCON3 .equ	0F5h
+0080+  0000             SPIDAT  .equ	0F7h
+0081+  0000             SPICON  .equ	0F8h
+0082+  0000             DAC0L   .equ	0F9h
+0083+  0000             DAC0H   .equ	0FAh
+0084+  0000             DAC1L   .equ	0FBh
+0085+  0000             DAC1H   .equ	0FCh
+0086+  0000             DACCON  .equ	0FDh
+0087+  0000             
+0088+  0000             
+0089+  0000             TF1     .equ	08Fh
+0090+  0000             TR1     .equ	08Eh
+0091+  0000             TF0     .equ	08Dh
+0092+  0000             TR0     .equ	08Ch
+0093+  0000             IE1     .equ	08Bh
+0094+  0000             IT1     .equ	08Ah
+0095+  0000             IE0     .equ	089h
+0096+  0000             IT0     .equ	088h
+0097+  0000             
+0098+  0000             T2EX    .equ	091h
+0099+  0000             T2      .equ	090h
+0100+  0000             
+0101+  0000             SM0     .equ	09Fh
+0102+  0000             SM1     .equ	09Eh
+0103+  0000             SM2     .equ	09Dh
+0104+  0000             REN     .equ	09Ch
+0105+  0000             TB8     .equ	09Bh
+0106+  0000             RB8     .equ	09Ah
+0107+  0000             TI      .equ	099h
+0108+  0000             RI      .equ	098h
+0109+  0000             
+0110+  0000             EA      .equ	0AFh
+0111+  0000             EADC    .equ	0AEh
+0112+  0000             ET2     .equ	0ADh
+0113+  0000             ES      .equ	0ACh
+0114+  0000             ET1     .equ	0ABh
+0115+  0000             EX1     .equ	0AAh
+0116+  0000             ET0     .equ	0A9h
+0117+  0000             EX0     .equ	0A8h
+0118+  0000             
+0119+  0000             RD      .equ	0B7h
+0120+  0000             WR      .equ	0B6h
+0121+  0000             T1      .equ	0B5h
+0122+  0000             T0      .equ	0B4h
+0123+  0000             INT1    .equ	0B3h
+0124+  0000             INT0    .equ	0B2h
+0125+  0000             TXD     .equ	0B1h
+0126+  0000             RXD     .equ	0B0h
+0127+  0000             
+0128+  0000             PSI     .equ	0BFh
+0129+  0000             PADC    .equ	0BEh
+0130+  0000             PT2     .equ	0BDh
+0131+  0000             PS      .equ	0BCh
+0132+  0000             PT1     .equ	0BBh
+0133+  0000             PX1     .equ	0BAh
+0134+  0000             PT0     .equ	0B9h
+0135+  0000             PX0     .equ	0B8h
+0136+  0000             
+0137+  0000             PRE3    .equ	0C7h
+0138+  0000             PRE2    .equ	0C6h
+0139+  0000             PRE1    .equ	0C5h
+0140+  0000             PRE0    .equ	0C4h
+0141+  0000             WDIR    .equ	0C3h
+0142+  0000             WDS     .equ	0C2h
+0143+  0000             WDE     .equ	0C1h
+0144+  0000             WDWR    .equ	0C0h
+0145+  0000             
+0146+  0000             TF2     .equ	0CFh
+0147+  0000             EXF2    .equ	0CEh
+0148+  0000             RCLK    .equ	0CDh
+0149+  0000             TCLK    .equ	0CCh
+0150+  0000             EXEN2   .equ	0CBh
+0151+  0000             TR2     .equ	0CAh
+0152+  0000             CNT2    .equ	0C9h
+0153+  0000             CAP2    .equ	0C8h
+0154+  0000             
+0155+  0000             CY      .equ	0D7h
+0156+  0000             AC      .equ	0D6h
+0157+  0000             F0      .equ	0D5h
+0158+  0000             RS1     .equ	0D4h
+0159+  0000             RS0     .equ	0D3h
+0160+  0000             OV      .equ	0D2h
+0161+  0000             F1      .equ	0D1h
+0162+  0000             P       .equ	0D0h
+0163+  0000             
+0164+  0000             ADCI    .equ	0DFh
+0165+  0000             DMA     .equ	0DEh
+0166+  0000             CCONV   .equ	0DDh
+0167+  0000             SCONV   .equ	0DCh
+0168+  0000             CS3     .equ	0DBh
+0169+  0000             CS2     .equ	0DAh
+0170+  0000             CS1     .equ	0D9h
+0171+  0000             CS0     .equ	0D8h
+0172+  0000             
+0173+  0000             D1      .equ	0EFh
+0174+  0000             D1EN    .equ	0EEh
+0175+  0000             D0      .equ	0EDh
+0176+  0000             D0EN    .equ	0EBh
+0177+  0000             
+0178+  0000             MDO     .equ	0EFh
+0179+  0000             MDE     .equ	0EEh
+0180+  0000             MCO     .equ	0EDh
+0181+  0000             MDI     .equ	0ECh
+0182+  0000             I2CM    .equ	0EBh
+0183+  0000             I2CRS   .equ	0EAh
+0184+  0000             I2CTX   .equ	0E9h
+0185+  0000             I2CI    .equ	0E8h
+0186+  0000             
+0187+  0000             ISPI    .equ	0FFh
+0188+  0000             WCOL    .equ	0FEh
+0189+  0000             SPE     .equ	0FDh
+0190+  0000             SPIM    .equ	0FCh
+0191+  0000             CPOL    .equ	0FBh
+0192+  0000             CPHA    .equ	0FAh
+0193+  0000             SPR1    .equ	0F9h
+0194+  0000             SPR0    .equ	0F8h
+0002   0000             LED        .EQU	P3
+0003   0000             CHAN    .EQU	1000B               ; выбор канала АЦП (0-8) в 10-ной системе
+0004   0000             	                          ; 
+0005   0000             ;____________________________________________________________________
+0006   0000                                                               ; начало
+0007   0000             CSEG
+0008   0000             
+0009   0000             .ORG 0000h
+0010   0000             		
+0011   0000 02 00 4B    	lJMP MAIN            ; jump to main program
+0012   0003             
+0013   0003             ; прога
+0014   004B             .ORG 004Bh
+0015   004B             
+0016   004B             MAIN:
+0017   004B             
+0018   004B             ; PRECONFIGURE...
+0019   004B 75 9E 83        	MOV     T3CON,#83h	; настройка вывода 	
+0020   004E 75 9D 2D    	MOV     T3FD,#02Dh		; в порт
+0021   0051 75 98 52    	MOV     SCON,#52h		; UART (COM-порт)
+0022   0054 75 EF AC    	MOV     ADCCON1,#0ACh         ; насторойка регистра АЦП
+0023   0057 75 D8 08    	MOV     ADCCON2,#CHAN      ; выбор установленного канала
+0024   005A 75 FD 3D    	MOV     DACCON,#03DH	; установка ЦАП 0-5В 12бит
+0025   005D B2 B0       	CPL      LED                                  ; CPL LED with each transmission
+0026   005F             
+0027   005F 74 01       	MOV     A,#01H		; задержка
+0028   0061 D2 DC       	SETB    SCONV                            ; инициализация АЦП преобразования
+0029   0063                     		         
+0030   0063 30 DF FD    	JNB     ADCI,$		;бит прерываняия АЦП установливается однократно по 				;концу однократного цикла преобразования АЦП
+0031   0066 C2 DF       	CLR	ADCI		;обнуление бита прерывания 
+0032   0068             ;исходные данные:
+0033   0068 85 DA FA    	MOV     DAC0H,ADCDATAH     ; вывод ЦАПа
+0034   006B 85 D9 F9    	MOV     DAC0L,ADCDATAL
+0035   006E A9 DA       	MOV     R1,ADCDATAH             ; вывод результата в пару HL ЦАПа 
+0036   0070 AA D9       	MOV     R2,ADCDATAL               ; Младший разряд
+0037   0072             
+0038   0072             ;регистры выходных данных
+0039   0072             
+0040   0072 7B 00       	mov R3,#00h  ;Стоарший
+0041   0074 7C 00       	mov R4,#00h  ;младший
+0042   0076             
+0043   0076             
+0044   0076             ;===========Умножение 16 ричного числа на 1.5==============	
+0045   0076             
+0046   0076 E9          	mov A,R1
+0047   0077 13          	RRC A
+0048   0078 FB          	mov R3,A
+0049   0079             
+0050   0079 EA           	mov A,R2
+0051   007A 13          	RRC A
+0052   007B 2A          	ADD A,R2
+0053   007C FA          	mov R2,A
+0054   007D             	
+0055   007D EB          	mov A,R3
+0056   007E 39          	ADDC A,R1
+0057   007F F9          	mov R1,A
+0058   0080 7B 00       	mov R3,#00h
+0059   0082             
+0060   0082             ;=======перевод в 10_ую систему исчиления==============
+0061   0082             
+0062   0082             ;Первый цикл для старших разрядов
+0063   0082 78 08       	mov R0,#08h
+0064   0084             cicl1::
+0065   0084             ;Сдвиг двоичного числа влево
+0066   0084 E9          	mov A,R1
+0067   0085 33          	RLC A
+0068   0086 F9          	mov R1,A
+0069   0087             ;Двоично-десятичное удвоение суммы
+0070   0087 EC          	mov A,R4
+0071   0088 3C          	ADDC A,R4
+0072   0089 D4          	DA A
+0073   008A FC          	mov R4,A
+0074   008B EB          	mov A,R3
+0075   008C 3B          	ADDC A,R3
+0076   008D D4          	DA A
+0077   008E FB          	mov R3,A
+0078   008F D8 F3       	DJNZ R0,cicl1
+0079   0091             
+0080   0091             ;Второй цикл для младших разрядов
+0081   0091 78 08       	mov R0,#08h
+0082   0093             cicl2::
+0083   0093             ;Сдвиг двоичного числа влево
+0084   0093 EA          	mov A,R2
+0085   0094 33          	RLC A
+0086   0095 FA          	mov R2,A
+0087   0096             ;Двоично-десятичное удвоение суммы
+0088   0096 EC          	mov A,R4
+0089   0097 3C          	ADDC A,R4
+0090   0098 D4          	DA A
+0091   0099 FC          	mov R4,A
+0092   009A EB          	mov A,R3
+0093   009B 3B          	ADDC A,R3
+0094   009C D4          	DA A
+0095   009D FB          	mov R3,A
+0096   009E D8 F3       	DJNZ R0,cicl2	
+0097   00A0              
+0098   00A0             ;Начало вывода символов на ЖКИ экран стенда
+0099   00A0 7D 02       	mov R5,#02H
+0100   00A2 75 84 08    	mov DPP,#08h
+0101   00A5             ;Выод на экран символов
+0102   00A5             ;Вывод 1 цыфры на ОПРЕДЕЛЁННУЮ позицию ЖКИ!
+0103   00A5             
+0104   00A5 90 00 06    	MOV DPTR,#0006H
+0105   00A8 74 08       	MOV A,#08H         ;Запись команды
+0106   00AA F0          	movX @DPTR,A
+0107   00AB             	
+0108   00AB 74 09       	MOV A,#09H          ;Разрешить
+0109   00AD F0          	movX @DPTR,A
+0110   00AE             	
+0111   00AE 90 00 01    	MOV DPTR,#0001H
+0112   00B1 74 82       	MOV A,#82H          ;Определяем координаты символа
+0113   00B3 F0          	movX @DPTR,A
+0114   00B4 12 01 E2    	lcall PAUSE 
+0115   00B7             		
+0116   00B7 90 00 06    	MOV DPTR,#0006H
+0117   00BA 74 0C       	MOV A,#0CH         ;Запись данных
+0118   00BC F0          	movX @DPTR,A
+0119   00BD             	
+0120   00BD 74 0D       	MOV A,#0DH         ;Разрешить
+0121   00BF F0          	movX @DPTR,A
+0122   00C0             
+0123   00C0 EB          	mov A,R3
+0124   00C1 54 F0       	anl A,#0F0h
+0125   00C3 03          	RR A
+0126   00C4 03          	RR A
+0127   00C5 03          	RR A
+0128   00C6 03          	RR A
+0129   00C7             
+0130   00C7 24 30       	ADD A,#30h
+0131   00C9             		
+0132   00C9 12 01 B8    	lCALL     SENDCHAR
+0133   00CC             
+0134   00CC 90 00 01    	MOV DPTR,#0001H
+0135   00CF F0          	movX @DPTR,A
+0136   00D0 12 01 E2    	lcall PAUSE 
+0137   00D3             	
+0138   00D3             ;Вывод запятой в ОПРЕДЕЛЁННУЮ позицию ЖКИ!
+0139   00D3             
+0140   00D3 90 00 06    	MOV DPTR,#0006H
+0141   00D6 74 08       	MOV A,#08H         ;Запись команды
+0142   00D8 F0          	movX @DPTR,A
+0143   00D9             	
+0144   00D9 74 09       	MOV A,#09H          ;Разрешить
+0145   00DB F0          	movX @DPTR,A
+0146   00DC             	
+0147   00DC 90 00 01    	MOV DPTR,#0001H
+0148   00DF 74 83       	MOV A,#83H          ;Определяем координаты символа
+0149   00E1 F0          	movX @DPTR,A
+0150   00E2 12 01 E2    	lcall PAUSE 
+0151   00E5             		
+0152   00E5 90 00 06    	MOV DPTR,#0006H
+0153   00E8 74 0C       	MOV A,#0CH         ;Запись данных
+0154   00EA F0          	movX @DPTR,A
+0155   00EB             	
+0156   00EB 74 0D       	MOV A,#0DH         ;Разрешить
+0157   00ED F0          	movX @DPTR,A
+0158   00EE             
+0159   00EE 74 2C       	mov A,#00101100B
+0160   00F0             			
+0161   00F0 12 01 B8    	lCALL     SENDCHAR
+0162   00F3             
+0163   00F3 90 00 01    	MOV DPTR,#0001H
+0164   00F6 F0          	movX @DPTR,A
+0165   00F7 12 01 E2    	lcall PAUSE 
+0166   00FA             ;Вывод 2 цыфры на следующую позицию ЖКИ!
+0167   00FA             
+0168   00FA 90 00 06    	MOV DPTR,#0006H
+0169   00FD 74 08       	MOV A,#08H
+0170   00FF F0          	movX @DPTR,A
+0171   0100             	
+0172   0100 74 09       	MOV A,#09H
+0173   0102 F0          	movX @DPTR,A
+0174   0103             	
+0175   0103 90 00 01    	MOV DPTR,#0001H
+0176   0106 74 84       	MOV A,#84H
+0177   0108 F0          	movX @DPTR,A
+0178   0109 12 01 E2    	lcall PAUSE 
+0179   010C             		
+0180   010C 90 00 06    	MOV DPTR,#0006H
+0181   010F 74 0C       	MOV A,#0CH
+0182   0111 F0          	movX @DPTR,A
+0183   0112             	
+0184   0112 74 0D       	MOV A,#0DH
+0185   0114 F0          	movX @DPTR,A
+0186   0115             
+0187   0115 EB          	mov A,R3
+0188   0116 54 0F       	anl A,#0Fh
+0189   0118 24 30       	ADD A,#30h
+0190   011A             	
+0191   011A 12 01 B8    	lCALL     SENDCHAR
+0192   011D             
+0193   011D 90 00 01    	MOV DPTR,#0001H
+0194   0120 F0          	movX @DPTR,A
+0195   0121 12 01 E2    	lcall PAUSE 
+0196   0124             
+0197   0124             ;Вывод 3 цыфры на следующую позицию ЖКИ!
+0198   0124             
+0199   0124 90 00 06    	MOV DPTR,#0006H
+0200   0127 74 08       	MOV A,#08H         ;Запись команды
+0201   0129 F0          	movX @DPTR,A
+0202   012A             	
+0203   012A 74 09       	MOV A,#09H          ;Разрешить
+0204   012C F0          	movX @DPTR,A
+0205   012D             	
+0206   012D 90 00 01    	MOV DPTR,#0001H
+0207   0130 74 85       	MOV A,#85H          ;Определяем координаты символа
+0208   0132 F0          	movX @DPTR,A
+0209   0133 12 01 E2    	lcall PAUSE 
+0210   0136             		
+0211   0136 90 00 06    	MOV DPTR,#0006H
+0212   0139 74 0C       	MOV A,#0CH         ;Запись данных
+0213   013B F0          	movX @DPTR,A
+0214   013C             	
+0215   013C 74 0D       	MOV A,#0DH         ;Разрешить
+0216   013E F0          	movX @DPTR,A
+0217   013F             
+0218   013F EC          	mov A,R4
+0219   0140 54 F0       	anl A,#0F0h
+0220   0142 03          	RR A
+0221   0143 03          	RR A
+0222   0144 03          	RR A
+0223   0145 03          	RR A
+0224   0146             
+0225   0146 24 30       	ADD A,#30h
+0226   0148             
+0227   0148 12 01 B8    	lCALL     SENDCHAR
+0228   014B             	
+0229   014B 90 00 01    	MOV DPTR,#0001H
+0230   014E F0          	movX @DPTR,A
+0231   014F 12 01 E2    	lcall PAUSE  
+0232   0152             
+0233   0152             ;Вывод 4 цыфры на следующую позицию ЖКИ!
+0234   0152             
+0235   0152 90 00 06    	MOV DPTR,#0006H
+0236   0155 74 08       	MOV A,#08H
+0237   0157 F0          	movX @DPTR,A
+0238   0158             	
+0239   0158 74 09       	MOV A,#09H
+0240   015A F0          	movX @DPTR,A
+0241   015B             	
+0242   015B 90 00 01    	MOV DPTR,#0001H
+0243   015E 74 86       	MOV A,#86H
+0244   0160 F0          	movX @DPTR,A
+0245   0161 12 01 E2    	lcall PAUSE 
+0246   0164             		
+0247   0164 90 00 06    	MOV DPTR,#0006H
+0248   0167 74 0C       	MOV A,#0CH
+0249   0169 F0          	movX @DPTR,A
+0250   016A             	
+0251   016A 74 0D       	MOV A,#0DH
+0252   016C F0          	movX @DPTR,A
+0253   016D             
+0254   016D EC          	mov A,R4
+0255   016E 54 0F       	anl A,#0Fh
+0256   0170 24 30       	ADD A,#30h
+0257   0172             	
+0258   0172 12 01 B8    	lCALL     SENDCHAR	
+0259   0175             
+0260   0175 90 00 01    	MOV DPTR,#0001H
+0261   0178 F0          	movX @DPTR,A
+0262   0179 12 01 E2    	lcall PAUSE 
+0263   017C             
+0264   017C             ;Пробел	
+0265   017C 74 20       	MOV      A, #20H
+0266   017E 12 01 B8    	lCALL     SENDCHAR
+0267   0181             
+0268   0181             ;Вывод Вольт!
+0269   0181             
+0270   0181 90 00 06    	MOV DPTR,#0006H
+0271   0184 74 08       	MOV A,#08H
+0272   0186 F0          	movX @DPTR,A
+0273   0187             	
+0274   0187 74 09       	MOV A,#09H
+0275   0189 F0          	movX @DPTR,A
+0276   018A             	
+0277   018A 90 00 01    	MOV DPTR,#0001H
+0278   018D 74 88       	MOV A,#88H
+0279   018F F0          	movX @DPTR,A
+0280   0190 12 01 E2    	lcall PAUSE 
+0281   0193             		
+0282   0193 90 00 06    	MOV DPTR,#0006H
+0283   0196 74 0C       	MOV A,#0CH
+0284   0198 F0          	movX @DPTR,A
+0285   0199             	
+0286   0199 74 0D       	MOV A,#0DH
+0287   019B F0          	movX @DPTR,A
+0288   019C             
+0289   019C 74 42       	mov A,#01000010B
+0290   019E             	
+0291   019E 12 01 B8    	lCALL     SENDCHAR	
+0292   01A1             
+0293   01A1 90 00 01    	MOV DPTR,#0001H
+0294   01A4 F0          	movX @DPTR,A
+0295   01A5 12 01 E2    	lcall PAUSE 
+0296   01A8             		
+0297   01A8             ;Конец вывода цыфр
+0298   01A8             ; Every eight transmissions start on a new line
+0299   01A8 74 0A                         MOV      A, #10       ; Transmit a linefeed
+0300   01AA 12 01 B8    	lCALL     SENDCHAR
+0301   01AD 74 0D       	MOV      A, #13       ; Transmit a carriage return
+0302   01AF 12 01 B8    	lCALL     SENDCHAR
+0303   01B2             	
+0304   01B2             ;задержка 5с между снятиями данных
+0305   01B2 12 01 F3    	lCALL DELAY 
+0306   01B5 02 00 4B    	ljmp MAIN
+0307   01B8             
+0308   01B8             
+0309   01B8             ;ВЫВОД ЗНАЧЕНИЯ НА ЭКРАН ЧЕРЕЗ UART (в Giper Terminal)
+0310   01B8             ;=======процедура вывода символа по его ASCII-коду======================
+0311   01B8                                                                        ; SENDCHAR
+0312   01B8             
+0313   01B8             SENDCHAR:       ; sends ASCII value contained in A to UART
+0314   01B8             
+0315   01B8 30 99 FD            	JNB     TI,$            ; wait til present char gone
+0316   01BB C2 99       	CLR     TI              ; must clear TI
+0317   01BD F5 99       	MOV     SBUF,A
+0318   01BF             
+0319   01BF 22          	RET
+0320   01C0             
+0321   01C0             ;=======процедур вывода переменной==================================
+0322   01C0                                                                         ; SENDVAL
+0323   01C0             
+0324   01C0             SENDVAL:        ; converts the hex value of A into two ASCII chars,
+0325   01C0             		; and then spits these two characters up the UART.
+0326   01C0                             ; does not change the value of A.
+0327   01C0             
+0328   01C0 C0 E0               PUSH    ACC
+0329   01C2 C4                  SWAP    A
+0330   01C3 12 01 D6            lCALL    HEX2ASCII
+0331   01C6 12 01 B8            lCALL    SENDCHAR        ; send high nibble
+0332   01C9 D0 E0               POP     ACC
+0333   01CB C0 E0               PUSH    ACC
+0334   01CD 12 01 D6            lCALL    HEX2ASCII
+0335   01D0 12 01 B8            lCALL    SENDCHAR        ; send low nibble
+0336   01D3 D0 E0               POP     ACC
+0337   01D5             
+0338   01D5 22                  RET
+0339   01D6             
+0340   01D6             
+0341   01D6             ;====конвертирование символа в ASCII-код==============================
+0342   01D6                                                                       ; HEX2ASCII
+0343   01D6             
+0344   01D6             HEX2ASCII:      ; converts A into the hex character representing the
+0345   01D6                             ; value of A's least significant nibble
+0346   01D6             
+0347   01D6 54 0F               ANL     A,#00Fh
+0348   01D8 B4 0A 00            CJNE    A,#00Ah,$+3
+0349   01DB 40 02               JC      IO0030
+0350   01DD 24 07               ADD     A,#007h
+0351   01DF 24 30       IO0030: ADD     A,#'0'
+0352   01E1             
+0353   01E1 22                  RET
+0354   01E2             
+0355   01E2             ;======================пауза на вывод символа========================
+0356   01E2             PAUSE::                             	
+0357   01E2 C0 D0               	PUSH	PSW
+0358   01E4 D2 D3       	SETB	RS0   			
+0359   01E6 C2 D4              	CLR	RS1
+0360   01E8             
+0361   01E8             
+0362   01E8             
+0363   01E8 79 9C              	MOV	R1,#9CH			
+0364   01EA             MP1::
+0365   01EA 78 92               	MOV	R0,#92H
+0366   01EC             MP2::
+0367   01EC D8 FE               	DJNZ	R0,MP2
+0368   01EE D9 FA       	DJNZ	R1,MP1
+0369   01F0             
+0370   01F0 D0 D0       	POP	PSW
+0371   01F2 22                  	RET	
+0372   01F3             
+0373   01F3             ;===================задержка 5с====================================
+0374   01F3             DELAY:					; Delays by 100ms * A
+0375   01F3             					; 100mSec based on 2.097152MHZ 
+0376   01F3             					; Core Clock 
+0377   01F3             					; 
+0378   01F3             	
+0379   01F3 7D 90       	MOV	R5,#400		; Acc holds delay variable (1 clock)
+0380   01F5 7E 5B       DLY0:	MOV	R6,#05Bh	; Set up delay loop0 (2 clocks)
+0381   01F7 7F FF       DLY1:	MOV	R7,#0FFh	; Set up delay loop1 (2 clocks)
+0382   01F9 DF FE       	DJNZ	R7,$		; Dec R7 & Jump here until R7 is 0 (3 clocks)
+0383   01FB DE FA       	DJNZ	R6,DLY1         ; Dec R6 & Jump DLY1 until R6 is 0 (3 clocks)
+0384   01FD DD F6       	DJNZ	R5,DLY0		; Dec R5 & Jump DLY0 until R5 is 0 (3 clocks)
+0385   01FF 22          	RET			; Return from subroutine          
+0386   0200             	
+0387   0200             	.END
+0388   0200             	
+0389   0200             
+0390   0200             
+0391   0200             	
+0392   0200             
+
+ADDR  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+-----------------------------------------------------
+0000  02 00 4B 00 00 00 00 00 00 00 00 00 00 00 00 00
+0010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0020  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0030  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0040  00 00 00 00 00 00 00 00 00 00 00 75 9E 83 75 9D
+0050  2D 75 98 52 75 EF AC 75 D8 08 75 FD 3D B2 B0 74
+0060  01 D2 DC 30 DF FD C2 DF 85 DA FA 85 D9 F9 A9 DA
+0070  AA D9 7B 00 7C 00 E9 13 FB EA 13 2A FA EB 39 F9
+0080  7B 00 78 08 E9 33 F9 EC 3C D4 FC EB 3B D4 FB D8
+0090  F3 78 08 EA 33 FA EC 3C D4 FC EB 3B D4 FB D8 F3
+00A0  7D 02 75 84 08 90 00 06 74 08 F0 74 09 F0 90 00
+00B0  01 74 82 F0 12 01 E2 90 00 06 74 0C F0 74 0D F0
+00C0  EB 54 F0 03 03 03 03 24 30 12 01 B8 90 00 01 F0
+00D0  12 01 E2 90 00 06 74 08 F0 74 09 F0 90 00 01 74
+00E0  83 F0 12 01 E2 90 00 06 74 0C F0 74 0D F0 74 2C
+00F0  12 01 B8 90 00 01 F0 12 01 E2 90 00 06 74 08 F0
+0100  74 09 F0 90 00 01 74 84 F0 12 01 E2 90 00 06 74
+0110  0C F0 74 0D F0 EB 54 0F 24 30 12 01 B8 90 00 01
+0120  F0 12 01 E2 90 00 06 74 08 F0 74 09 F0 90 00 01
+0130  74 85 F0 12 01 E2 90 00 06 74 0C F0 74 0D F0 EC
+0140  54 F0 03 03 03 03 24 30 12 01 B8 90 00 01 F0 12
+0150  01 E2 90 00 06 74 08 F0 74 09 F0 90 00 01 74 86
+0160  F0 12 01 E2 90 00 06 74 0C F0 74 0D F0 EC 54 0F
+0170  24 30 12 01 B8 90 00 01 F0 12 01 E2 74 20 12 01
+0180  B8 90 00 06 74 08 F0 74 09 F0 90 00 01 74 88 F0
+0190  12 01 E2 90 00 06 74 0C F0 74 0D F0 74 42 12 01
+01A0  B8 90 00 01 F0 12 01 E2 74 0A 12 01 B8 74 0D 12
+01B0  01 B8 12 01 F3 02 00 4B 30 99 FD C2 99 F5 99 22
+01C0  C0 E0 C4 12 01 D6 12 01 B8 D0 E0 C0 E0 12 01 D6
+01D0  12 01 B8 D0 E0 22 54 0F B4 0A 00 40 02 24 07 24
+01E0  30 22 C0 D0 D2 D3 C2 D4 79 9C 78 92 D8 FE D9 FA
+01F0  D0 D0 22 7D 90 7E 5B 7F FF DF FE DE FA DD F6 22
+
+
+tasm: Number of errors = 0

@@ -1,0 +1,238 @@
+0001   0000             #include define.asm
+0001+  0000             DPTR	.EQU	30H
+0002+  0000             DPP     .equ	84h
+0003+  0000             ACC	.equ	0E0h
+0004+  0000             RS0     .EQU    0D3H
+0005+  0000             RS1     .EQU    0D4H
+0006+  0000             PSW     .equ    0D0H
+0007+  0000             T0	.equ	0B4H
+0008+  0000             	
+0009+  0000             	
+0010+  0000             P0      .equ	080h
+0011+  0000             SP      .equ    081h
+0012+  0000             DPL     .equ    082h
+0013+  0000             DPH     .equ    083h
+0014+  0000             DPP     .equ    084h
+0015+  0000             PCON    .equ    087h
+0016+  0000             TCON    .equ    088h
+0017+  0000             TMOD    .equ    089h
+0018+  0000             TL0     .equ	08Ah
+0019+  0000             TL1     .equ    08Bh
+0020+  0000             TH0     .equ    08Ch
+0021+  0000             TH1     .equ 	08Dh
+0022+  0000             P1      .equ	090h
+0023+  0000             SCON    .equ 	098h
+0024+  0000             SBUF    .equ    099h
+0025+  0000             I2CDAT  .equ	09Ah
+0026+  0000             I2CADD  .equ	09Bh
+0027+  0000             T3FD    .equ	09Dh
+0028+  0000             T3CON   .equ	09Eh
+0029+  0000             P2      .equ	0A0h
+0030+  0000             TIMECON .equ	0A1h
+0031+  0000             HTHSEC  .equ	0A2h
+0032+  0000             SEC     .equ	0A3h
+0033+  0000             MIN     .equ	0A4h
+0034+  0000             HOUR    .equ	0A5h
+0035+  0000             INTVAL  .equ	0A6h
+0036+  0000             DPCON   .equ	0A7h
+0037+  0000             IE      .equ	0A8h
+0038+  0000             IEIP2   .equ	0A9h
+0039+  0000             PWMCON  .equ	0AEh
+0040+  0000             CFG831  .equ	0AFh
+0041+  0000             P3      .equ	0B0h
+0042+  0000             PWM0L   .equ	0B1h
+0043+  0000             PWM0H   .equ	0B2h
+0044+  0000             PWM1L   .equ	0B3h
+0045+  0000             PWM1H   .equ	0B4h
+0046+  0000             SPH     .equ	0B7h
+0047+  0000             IP      .equ	0B8h
+0048+  0000             ECON    .equ	0B9h
+0049+  0000             EDATA1  .equ	0BCh
+0050+  0000             EDATA2  .equ	0BDh
+0051+  0000             EDATA3  .equ	0BEh
+0052+  0000             EDATA4  .equ	0BFh
+0053+  0000             WDCON   .equ	0C0h
+0054+  0000             CHIPID  .equ	0C2h
+0055+  0000             EADRL   .equ	0C6h
+0056+  0000             EADRH   .equ	0C7h
+0057+  0000             T2CON   .equ	0C8h
+0058+  0000             RCAP2L  .equ	0CAh
+0059+  0000             RCAP2H  .equ	0CBh
+0060+  0000             TL2     .equ	0CCh
+0061+  0000             TH2     .equ	0CDh
+0062+  0000             PSW     .equ	0D0h
+0063+  0000             DMAL    .equ	0D2h
+0064+  0000             DMAH    .equ	0D3h
+0065+  0000             DMAP    .equ	0D4h
+0066+  0000             ADCCON2 .equ	0D8h
+0067+  0000             ADCDATAL	.equ	0D9h
+0068+  0000             ADCDATAH	.equ	0DAh
+0069+  0000             PSMCON  .equ	0DFh
+0070+  0000             ACC     .equ	0E0h
+0071+  0000             DCON    .equ	0E8h
+0072+  0000             I2CCON  .equ	0E8h
+0073+  0000             ADCCON1 .equ	0EFh
+0074+  0000             B       .equ	0F0h
+0075+  0000             ADCOFSL .equ	0F1h
+0076+  0000             ADCOFSH .equ	0F2h
+0077+  0000             ADCGAINL	.equ	0F3h
+0078+  0000             ADCGAINH	.equ	0F4h
+0079+  0000             ADCCON3 .equ	0F5h
+0080+  0000             SPIDAT  .equ	0F7h
+0081+  0000             SPICON  .equ	0F8h
+0082+  0000             DAC0L   .equ	0F9h
+0083+  0000             DAC0H   .equ	0FAh
+0084+  0000             DAC1L   .equ	0FBh
+0085+  0000             DAC1H   .equ	0FCh
+0086+  0000             DACCON  .equ	0FDh
+0087+  0000             
+0088+  0000             
+0089+  0000             TF1     .equ	08Fh
+0090+  0000             TR1     .equ	08Eh
+0091+  0000             TF0     .equ	08Dh
+0092+  0000             TR0     .equ	08Ch
+0093+  0000             IE1     .equ	08Bh
+0094+  0000             IT1     .equ	08Ah
+0095+  0000             IE0     .equ	089h
+0096+  0000             IT0     .equ	088h
+0097+  0000             
+0098+  0000             T2EX    .equ	091h
+0099+  0000             T2      .equ	090h
+0100+  0000             
+0101+  0000             SM0     .equ	09Fh
+0102+  0000             SM1     .equ	09Eh
+0103+  0000             SM2     .equ	09Dh
+0104+  0000             REN     .equ	09Ch
+0105+  0000             TB8     .equ	09Bh
+0106+  0000             RB8     .equ	09Ah
+0107+  0000             TI      .equ	099h
+0108+  0000             RI      .equ	098h
+0109+  0000             
+0110+  0000             EA      .equ	0AFh
+0111+  0000             EADC    .equ	0AEh
+0112+  0000             ET2     .equ	0ADh
+0113+  0000             ES      .equ	0ACh
+0114+  0000             ET1     .equ	0ABh
+0115+  0000             EX1     .equ	0AAh
+0116+  0000             ET0     .equ	0A9h
+0117+  0000             EX0     .equ	0A8h
+0118+  0000             
+0119+  0000             RD      .equ	0B7h
+0120+  0000             WR      .equ	0B6h
+0121+  0000             T1      .equ	0B5h
+0122+  0000             T0      .equ	0B4h
+0123+  0000             INT1    .equ	0B3h
+0124+  0000             INT0    .equ	0B2h
+0125+  0000             TXD     .equ	0B1h
+0126+  0000             RXD     .equ	0B0h
+0127+  0000             
+0128+  0000             PSI     .equ	0BFh
+0129+  0000             PADC    .equ	0BEh
+0130+  0000             PT2     .equ	0BDh
+0131+  0000             PS      .equ	0BCh
+0132+  0000             PT1     .equ	0BBh
+0133+  0000             PX1     .equ	0BAh
+0134+  0000             PT0     .equ	0B9h
+0135+  0000             PX0     .equ	0B8h
+0136+  0000             
+0137+  0000             PRE3    .equ	0C7h
+0138+  0000             PRE2    .equ	0C6h
+0139+  0000             PRE1    .equ	0C5h
+0140+  0000             PRE0    .equ	0C4h
+0141+  0000             WDIR    .equ	0C3h
+0142+  0000             WDS     .equ	0C2h
+0143+  0000             WDE     .equ	0C1h
+0144+  0000             WDWR    .equ	0C0h
+0145+  0000             
+0146+  0000             TF2     .equ	0CFh
+0147+  0000             EXF2    .equ	0CEh
+0148+  0000             RCLK    .equ	0CDh
+0149+  0000             TCLK    .equ	0CCh
+0150+  0000             EXEN2   .equ	0CBh
+0151+  0000             TR2     .equ	0CAh
+0152+  0000             CNT2    .equ	0C9h
+0153+  0000             CAP2    .equ	0C8h
+0154+  0000             
+0155+  0000             CY      .equ	0D7h
+0156+  0000             AC      .equ	0D6h
+0157+  0000             F0      .equ	0D5h
+0158+  0000             RS1     .equ	0D4h
+0159+  0000             RS0     .equ	0D3h
+0160+  0000             OV      .equ	0D2h
+0161+  0000             F1      .equ	0D1h
+0162+  0000             P       .equ	0D0h
+0163+  0000             
+0164+  0000             ADCI    .equ	0DFh
+0165+  0000             DMA     .equ	0DEh
+0166+  0000             CCONV   .equ	0DDh
+0167+  0000             SCONV   .equ	0DCh
+0168+  0000             CS3     .equ	0DBh
+0169+  0000             CS2     .equ	0DAh
+0170+  0000             CS1     .equ	0D9h
+0171+  0000             CS0     .equ	0D8h
+0172+  0000             
+0173+  0000             D1      .equ	0EFh
+0174+  0000             D1EN    .equ	0EEh
+0175+  0000             D0      .equ	0EDh
+0176+  0000             D0EN    .equ	0EBh
+0177+  0000             
+0178+  0000             MDO     .equ	0EFh
+0179+  0000             MDE     .equ	0EEh
+0180+  0000             MCO     .equ	0EDh
+0181+  0000             MDI     .equ	0ECh
+0182+  0000             I2CM    .equ	0EBh
+0183+  0000             I2CRS   .equ	0EAh
+0184+  0000             I2CTX   .equ	0E9h
+0185+  0000             I2CI    .equ	0E8h
+0186+  0000             
+0187+  0000             ISPI    .equ	0FFh
+0188+  0000             WCOL    .equ	0FEh
+0189+  0000             SPE     .equ	0FDh
+0190+  0000             SPIM    .equ	0FCh
+0191+  0000             CPOL    .equ	0FBh
+0192+  0000             CPHA    .equ	0FAh
+0193+  0000             SPR1    .equ	0F9h
+0194+  0000             SPR0    .equ	0F8h
+0002   0000             
+0003   0000             CSEG
+0004   0000             .ORG 0000h
+0005   0000 02 00 4B    	lJMP MAIN            ; переход к главной программе
+0006   0003             ; программа
+0007   0003             
+0008   004B             .ORG 004Bh
+0009   004B             
+0010   004B             MAIN:
+0011   004B              
+0012   004B 75 C6 00    	MOV	EADRL,#0		;выбрать страницу 0 Flash/EE ;памяти данных
+0013   004E 75 B9 01    	MOV 	ECON,#1		;чтение страницы 0
+0014   0051 85 F1 BC    	MOV	EDATA1,ADCOFSL	 ;создание образа 
+0015   0054 85 F2 BD    	MOV	EDATA2,ADCOFSH 	; коэффициентов в 	;EDATA1,2,3,4
+0016   0057 85 F3 BE    	MOV	EDATA3,ADCGAINL
+0017   005A 85 F4 BF    	MOV	EDATA4,ADCGAINH
+0018   005D 75 B9 05    	MOV	ECON,#5		; очистка страницы 0
+0019   0060 75 B9 02    	MOV	ECON,#2		; запись ;коэффициентов в ;EDATA1,2,3,4 на  
+0020   0063             ; страницу 0 Flash/EE памяти 
+0021   0063             	
+0022   0063             ;Следующий код производит копирование данных калибровки в 
+0023   0063             ;соответствующие регистры.
+0024   0063 75 C6 00    	MOV	EADRL,#0		;выбрать страницу 0 ;Flash/EE ;памяти ;данных
+0025   0066 75 B9 01    	MOV 	ECON,#1		;чтение страницы 0
+0026   0069 85 BC F1    	MOV	ADCOFSL, EDATA1	 ;восстановление ;коэффициентов  
+0027   006C 85 BD F2    	MOV	ADCOFSH, EDATA2 	; ;калибровки из ;EDATA1,2,3,4
+0028   006F 85 BE F3    	MOV	ADCGAINL, EDATA3
+0029   0072 85 BF F4    	MOV	ADCGAINH, EDATA4
+0030   0075             .END
+
+ADDR  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+-----------------------------------------------------
+0000  02 00 4B 00 00 00 00 00 00 00 00 00 00 00 00 00
+0010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0020  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0030  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0040  00 00 00 00 00 00 00 00 00 00 00 75 C6 00 75 B9
+0050  01 85 F1 BC 85 F2 BD 85 F3 BE 85 F4 BF 75 B9 05
+0060  75 B9 02 75 C6 00 75 B9 01 85 BC F1 85 BD F2 85
+0070  BE F3 85 BF F4 00 00 00 00 00 00 00 00 00 00 00
+
+
+tasm: Number of errors = 0

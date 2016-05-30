@@ -1,0 +1,83 @@
+#INCLUDE	"DEFINE.ASM"     ; подключение таблицы имён и кодов SFR, ;применённых в программе
+
+.org 200bh
+	lcall obrTimer
+	
+main:
+	lcall initENA
+loop:
+
+	mov DPTR,#0002H   ;выбор регистра данных EXT_LO
+	movX A,@DPTR		;запись данных в аккумулятор из регистра EXT_LO
+	
+	cjne A,#71h,errorInput
+	mov A,#01h
+	mov DPTR,#0003H		;выбор регистра EXT_HI
+	movX @DPTR,A		;запись данных из аккумулятора в регистр EXT_HI
+	mov R0,#64h
+	
+	mov TMOD,#11h
+	mov TH0,#3ch
+	mov TL0,#0b0h
+	setb TR0
+	setb ET0
+mp1:
+	cjne R0,#00,mp1
+	clr TR0
+	clr ET0
+	
+	mov DPTR,#0002H   ;выбор регистра данных EXT_LO
+	movX A,@DPTR		;запись данных в аккумулятор из регистра EXT_LO
+	cjne A,#11,errorX2 
+	mov DPTR,#0003H	;выбор регистра EXT_HI
+	movX @DPTR,A		;запись данных из аккумулятора в регистр EXT_HI
+	mov R0,#0c0h
+	
+	mov TH0,#3ch 
+	mov TL0,#0b0h
+	setb TR0
+	setb ET0
+mp2:
+	cjne R0,#00h,mp2
+	clr TR0
+	clr ET0
+	mov A,#80h
+	mov DPTR,#0003H	;выбор регистра EXT_HI
+	movX @DPTR,A		;запись данных из аккумулятора в регистр EXT_HI
+mp:
+	ljmp mp
+	
+errorX2:
+	mov A,#20h
+	movx @DPTR,A
+	sjmp errorX2
+	
+loop1:
+	ljmp loop1	
+
+obrTimer:
+	clr TR0
+	mov TH0,#3ch
+	mov TL0,#0b0h
+	dec R0
+	setb TR0
+	reti
+	
+
+
+errorInput:
+	mov A,#40h
+	mov DPTR,#0003H		;выбор регистра EXT_HI
+	movX @DPTR,A		;запись данных из аккумулятора в регистр EXT_HI
+	sjmp errorInput
+
+
+initENA:
+	mov DPP,#08h	;выбор страницы регистра ПЛИС
+	mov DPTR,#0004H	;выбор регистра ENA
+	mov A,#02h			
+	movX @DPTR,A	;задаём параметры, что бы появилась возможность считывать данные из EXT_LO и запись в EXT_HI
+	ret
+	
+.end
+	

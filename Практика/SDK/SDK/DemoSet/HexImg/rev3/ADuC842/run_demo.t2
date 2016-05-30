@@ -1,0 +1,4 @@
+9600 openchannel $1
+loadhex $2
+0 term
+-- bye

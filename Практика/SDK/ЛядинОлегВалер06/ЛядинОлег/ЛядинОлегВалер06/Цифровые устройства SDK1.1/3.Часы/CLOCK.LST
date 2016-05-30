@@ -1,0 +1,358 @@
+0001   0000             #INCLUDE	"DEFINE.ASM"
+0001+  0000             NOACK	.EQU	00H
+0002+  0000             DPTR	.EQU	30H
+0003+  0000             DPP     .equ	84h
+0004+  0000             ACC	.equ	0E0h
+0005+  0000             BITCNT	.equ	31H
+0006+  0000             RS0     .EQU    0D3H
+0007+  0000             RS1     .EQU    0D4H
+0008+  0000             PSW     .equ    0D0H
+0009+  0000             scon	.equ	098H
+0010+  0000             MDO	.equ	0EFH
+0011+  0000             MDE	.equ	0EEH
+0012+  0000             MCO	.equ	0EDH
+0013+  0000             MDI	.equ	0ECH
+0014+  0000             i2cm	.equ	0EBH
+0015+  0000             i2crs	.equ	0EAH
+0016+  0000             i2ctx	.equ	0E9H
+0017+  0000             i2ci	.equ	0E8H
+0018+  0000             i2cdat	.equ	09AH
+0019+  0000             i2cadd	.equ	09BH
+0020+  0000             i2ccon	.equ	0E8H
+0021+  0000             spicon	.equ	0F8H
+0022+  0000             
+0002   0000             
+0003   0000             START::
+0004   0000             
+0005   0000 D2 EB       	SETB i2cm
+0006   0002             
+0007   0002             Turn::
+0008   0002              
+0009   0002             ;Чтение байта часов (адрес 04)
+0010   0002             
+0011   0002 12 01 76    	lcall STARTBIT
+0012   0005 74 A0       	mov A,#10100000B   ;Адресс EEPROM (последний бит 0 т.к. запись)
+0013   0007 12 01 37    	lcall SENDBYTE
+0014   000A 12 01 9A    	lcall DELAY5
+0015   000D 74 04       	mov A,#04H         ;ячейка памяти в EEPROM из которой хотим прочитать
+0016   000F 12 01 37    	lcall SENDBYTE
+0017   0012 12 01 9A    	lcall DELAY5
+0018   0015             
+0019   0015 12 01 76    	lcall STARTBIT
+0020   0018 74 A1       	mov A,#10100001B   ;Адресс EEPROM (последний бит 1 т.к. чтение)
+0021   001A 12 01 37    	lcall SENDBYTE
+0022   001D 12 01 9A    	lcall DELAY5
+0023   0020 12 01 57    	lcall RCVBYTE      ;Процедура чтения байта
+0024   0023 12 01 9A    	lcall DELAY5
+0025   0026 12 01 87    	lcall STOPBIT
+0026   0029 FB          	mov R3,A
+0027   002A             ;Выод на экран символов
+0028   002A             ;Вывод 1 цыфры на ОПРЕДЕЛЁННУЮ позицию ЖКИ!
+0029   002A 75 84 08    	mov DPP,#08h
+0030   002D 90 00 06    	MOV DPTR,#0006H
+0031   0030 74 08       	MOV A,#08H         ;Запись команды
+0032   0032 F0          	movX @DPTR,A
+0033   0033             
+0034   0033 74 09       	MOV A,#09H          ;Разрешить
+0035   0035 F0          	movX @DPTR,A
+0036   0036             
+0037   0036 90 00 01    	MOV DPTR,#0001H
+0038   0039 74 82       	MOV A,#82H          ;Определяем координаты символа
+0039   003B F0          	movX @DPTR,A
+0040   003C 12 01 9A    	lcall DELAY5
+0041   003F             		
+0042   003F 90 00 06    	MOV DPTR,#0006H
+0043   0042 74 0C       	MOV A,#0CH         ;Запись данных
+0044   0044 F0          	movX @DPTR,A
+0045   0045             
+0046   0045 74 0D       	MOV A,#0DH         ;Разрешить
+0047   0047 F0          	movX @DPTR,A
+0048   0048             
+0049   0048 EB          	mov A,R3
+0050   0049 54 F0       	anl A,#0F0h
+0051   004B 03          	RR A
+0052   004C 03          	RR A
+0053   004D 03          	RR A
+0054   004E 03          	RR A
+0055   004F 24 30       	ADD A,#30h
+0056   0051 90 00 01    	MOV DPTR,#0001H
+0057   0054 F0          	movX @DPTR,A
+0058   0055 12 01 9A    	lcall DELAY5
+0059   0058             
+0060   0058             ;Выод на экран символов
+0061   0058             ;Вывод 2 цыфры на следующую позицию ЖКИ!
+0062   0058             			
+0063   0058 90 00 06    	MOV DPTR,#0006H
+0064   005B 74 0C       	MOV A,#0CH
+0065   005D F0          	movX @DPTR,A
+0066   005E             	
+0067   005E 74 0D       	MOV A,#0DH
+0068   0060 F0          	movX @DPTR,A
+0069   0061             
+0070   0061 EB          	mov A,R3
+0071   0062 54 0F       	anl A,#0Fh
+0072   0064 24 30       	ADD A,#30h
+0073   0066             	
+0074   0066 90 00 01    	MOV DPTR,#0001H
+0075   0069 F0          	movX @DPTR,A
+0076   006A 74 00       	mov A,#00h
+0077   006C 12 01 22    	lcall line
+0078   006F             	
+0079   006F             ;Чтение байта минут
+0080   006F 12 01 76    	lcall STARTBIT
+0081   0072 74 A0       	mov A,#10100000B   ;Адресс EEPROM (последний бит 0 т.к. запись)
+0082   0074 12 01 37    	lcall SENDBYTE
+0083   0077 12 01 9A    	lcall DELAY5
+0084   007A 74 03       	mov A,#03H         ;ячейка памяти в EEPROM из которой хотим прочитать
+0085   007C 12 01 37    	lcall SENDBYTE
+0086   007F 12 01 9A    	lcall DELAY5
+0087   0082             
+0088   0082 12 01 76    	lcall STARTBIT
+0089   0085 74 A1       	mov A,#10100001B   ;Адресс EEPROM (последний бит 1 т.к. чтение)
+0090   0087 12 01 37    	lcall SENDBYTE
+0091   008A 12 01 9A    	lcall DELAY5
+0092   008D 12 01 57    	lcall RCVBYTE      ;Процедура чтения байта
+0093   0090 12 01 9A    	lcall DELAY5
+0094   0093 12 01 87    	lcall STOPBIT
+0095   0096 FB          	mov R3,A
+0096   0097             
+0097   0097             
+0098   0097             ;Выод на экран символов
+0099   0097             ;Вывод 1 цыфры на ОПРЕДЕЛЁННУЮ позицию ЖКИ!
+0100   0097             			
+0101   0097 90 00 06    	MOV DPTR,#0006H
+0102   009A 74 0C       	MOV A,#0CH         ;Запись данных
+0103   009C F0          	movX @DPTR,A
+0104   009D             
+0105   009D 74 0D       	MOV A,#0DH         ;Разрешить
+0106   009F F0          	movX @DPTR,A
+0107   00A0             
+0108   00A0 EB          	mov A,R3
+0109   00A1 54 F0       	anl A,#0F0h
+0110   00A3 03          	RR A
+0111   00A4 03          	RR A
+0112   00A5 03          	RR A
+0113   00A6 03          	RR A
+0114   00A7 24 30       	ADD A,#30h
+0115   00A9 90 00 01    	MOV DPTR,#0001H
+0116   00AC F0          	movX @DPTR,A
+0117   00AD 12 01 9A    	lcall DELAY5
+0118   00B0             
+0119   00B0             ;Выод на экран символов
+0120   00B0             ;Вывод 2 цыфры на следующую позицию ЖКИ!
+0121   00B0             			
+0122   00B0 90 00 06    	MOV DPTR,#0006H
+0123   00B3 74 0C       	MOV A,#0CH
+0124   00B5 F0          	movX @DPTR,A
+0125   00B6             	
+0126   00B6 74 0D       	MOV A,#0DH
+0127   00B8 F0          	movX @DPTR,A
+0128   00B9             
+0129   00B9 EB          	mov A,R3
+0130   00BA 54 0F       	anl A,#0Fh
+0131   00BC 24 30       	ADD A,#30h
+0132   00BE             	
+0133   00BE 90 00 01    	MOV DPTR,#0001H
+0134   00C1 F0          	movX @DPTR,A
+0135   00C2 74 00       	mov A,#00h
+0136   00C4 12 01 22    	lcall line
+0137   00C7             	
+0138   00C7             ;Чтение байта
+0139   00C7 12 01 76    	lcall STARTBIT
+0140   00CA 74 A0       	mov A,#10100000B   ;Адресс EEPROM (последний бит 0 т.к. запись)
+0141   00CC 12 01 37    	lcall SENDBYTE
+0142   00CF 12 01 9A    	lcall DELAY5
+0143   00D2 74 02       	mov A,#02H         ;ячейка памяти в EEPROM из которой хотим прочитать
+0144   00D4 12 01 37    	lcall SENDBYTE
+0145   00D7 12 01 9A    	lcall DELAY5
+0146   00DA             
+0147   00DA 12 01 76    	lcall STARTBIT
+0148   00DD 74 A1       	mov A,#10100001B   ;Адресс EEPROM (последний бит 1 т.к. чтение)
+0149   00DF 12 01 37    	lcall SENDBYTE
+0150   00E2 12 01 9A    	lcall DELAY5
+0151   00E5 12 01 57    	lcall RCVBYTE      ;Процедура чтения байта
+0152   00E8 12 01 9A    	lcall DELAY5
+0153   00EB 12 01 87    	lcall STOPBIT
+0154   00EE FB          	mov R3,A
+0155   00EF             
+0156   00EF             ;Вывод 3 цыфры на ОПРЕДЕЛЁННУЮ позицию ЖКИ!
+0157   00EF             			
+0158   00EF 90 00 06    	MOV DPTR,#0006H
+0159   00F2 74 0C       	MOV A,#0CH         ;Запись данных
+0160   00F4 F0          	movX @DPTR,A
+0161   00F5             
+0162   00F5 74 0D       	MOV A,#0DH         ;Разрешить
+0163   00F7 F0          	movX @DPTR,A
+0164   00F8             
+0165   00F8 EB          	mov A,R3
+0166   00F9 54 F0       	anl A,#0F0h
+0167   00FB 03          	RR A
+0168   00FC 03          	RR A
+0169   00FD 03          	RR A
+0170   00FE 03          	RR A
+0171   00FF 24 30       	ADD A,#30h
+0172   0101 90 00 01    	MOV DPTR,#0001H
+0173   0104 F0          	movX @DPTR,A
+0174   0105 12 01 9A    	lcall DELAY5
+0175   0108             
+0176   0108             ;Выод на экран символов
+0177   0108             ;Вывод 4 цыфры на следующую позицию ЖКИ!
+0178   0108             			
+0179   0108 90 00 06    	MOV DPTR,#0006H
+0180   010B 74 0C       	MOV A,#0CH
+0181   010D F0          	movX @DPTR,A
+0182   010E             	
+0183   010E 74 0D       	MOV A,#0DH
+0184   0110 F0          	movX @DPTR,A
+0185   0111             
+0186   0111 EB          	mov A,R3
+0187   0112 54 0F       	anl A,#0Fh
+0188   0114 24 30       	ADD A,#30h
+0189   0116             	
+0190   0116 90 00 01    	MOV DPTR,#0001H
+0191   0119 F0          	movX @DPTR,A
+0192   011A 74 00       	mov A,#00h
+0193   011C 12 01 9A    	lcall DELAY5
+0194   011F             
+0195   011F 02 00 02    	ljmp Turn
+0196   0122             	
+0197   0122             
+0198   0122             ;-----------------------------------------------------------------------------------
+0199   0122             
+0200   0122             ;Процедуры!!!
+0201   0122             
+0202   0122             line::
+0203   0122 12 01 9A    	lcall DELAY5
+0204   0125 90 00 06    	MOV DPTR,#0006H
+0205   0128 74 0C       	MOV A,#0CH
+0206   012A F0          	movX @DPTR,A
+0207   012B             	
+0208   012B 74 0D       	MOV A,#0DH
+0209   012D F0          	movX @DPTR,A
+0210   012E             
+0211   012E 74 2D       	mov A,#2Dh
+0212   0130             		
+0213   0130 90 00 01    	MOV DPTR,#0001H
+0214   0133 F0          	movX @DPTR,A
+0215   0134 12 01 9A    	lcall DELAY5
+0216   0137             
+0217   0137             
+0218   0137             SENDBYTE::
+0219   0137             
+0220   0137 75 31 08    	MOV BITCNT,#8H      
+0221   013A D2 EE       	SETB MDE      
+0222   013C C2 ED       	CLR MCO       
+0223   013E             SENDBIT::
+0224   013E 33          	RLC A           
+0225   013F 92 EF       	MOV MDO,C      
+0226   0141 D2 ED       	SETB MCO          
+0227   0143 C2 ED       	CLR MCO         
+0228   0145 D5 31 F6    	DJNZ BITCNT,SENDBIT
+0229   0148 C2 EE       	CLR MDE
+0230   014A D2 ED       	SETB MCO
+0231   014C 12 01 9A    	lcall DELAY5
+0232   014F 30 EC 02    	JNB MDI,NEXT        
+0233   0152 D2 00       	SETB NOACK      		
+0234   0154             NEXT::
+0235   0154 C2 ED       	CLR MCO
+0236   0156 22          	RET
+0237   0157             
+0238   0157             
+0239   0157             RCVBYTE::
+0240   0157 E5 00       	mov A,00H
+0241   0159 75 31 08    	MOV BITCNT,#8H
+0242   015C C2 EE       	CLR MDE             
+0243   015E C2 ED       	CLR MCO
+0244   0160             LOOP::  
+0245   0160 D2 ED       	SETB MCO
+0246   0162 C2 ED       	CLR MCO
+0247   0164 A2 EC       	MOV C,MDI
+0248   0166 33          	RLC A    
+0249   0167                        
+0250   0167 D5 31 F6    	DJNZ BITCNT,LOOP   
+0251   016A             
+0252   016A D2 EE       	SETB MDE             
+0253   016C D2 EF       	SETB MDO
+0254   016E D2 ED       	SETB MCO             
+0255   0170 12 01 9A    	lcall DELAY5
+0256   0173 C2 ED       	CLR MCO
+0257   0175 22          	RET
+0258   0176             
+0259   0176             ;Начало передачи
+0260   0176             STARTBIT::
+0261   0176             
+0262   0176 D2 EE       	setb MDE
+0263   0178 D2 EF       	setb MDO
+0264   017A D2 ED       	setb MCO
+0265   017C 12 01 9A    	lcall DELAY5
+0266   017F C2 EF       	clr MDO
+0267   0181 12 01 9A    	lcall DELAY5
+0268   0184 C2 ED       	clr MCO
+0269   0186 22          	RET
+0270   0187             
+0271   0187             ;Конец передачи
+0272   0187             STOPBIT::
+0273   0187             	
+0274   0187 D2 EE       	setb MDE
+0275   0189 C2 ED       	clr MCO
+0276   018B C2 EF       	clr MDO
+0277   018D D2 ED       	setb MCO
+0278   018F 12 01 9A    	lcall DELAY5
+0279   0192 D2 EF       	setb MDO
+0280   0194 12 01 9A    	lcall DELAY5
+0281   0197 C2 EE       	clr MDE
+0282   0199 22          	RET
+0283   019A             
+0284   019A             ;задержка
+0285   019A             DELAY5::
+0286   019A C0 D0       	PUSH	PSW
+0287   019C D2 D3       	SETB	RS0   			
+0288   019E C2 D4              	CLR	RS1
+0289   01A0             
+0290   01A0             
+0291   01A0             
+0292   01A0 79 08               MOV	R1,#08H			
+0293   01A2             MP1::
+0294   01A2 78 0F               MOV	R0,#0FH
+0295   01A4             MP2::
+0296   01A4 D8 FE               DJNZ	R0,MP2
+0297   01A6 D9 FA               DJNZ	R1,MP1
+0298   01A8             
+0299   01A8 D0 D0               POP	PSW
+0300   01AA 22                  RET	
+0301   01AB             
+0302   01AB             
+0303   01AB             	.END
+
+ADDR  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+-----------------------------------------------------
+0000  D2 EB 12 01 76 74 A0 12 01 37 12 01 9A 74 04 12
+0010  01 37 12 01 9A 12 01 76 74 A1 12 01 37 12 01 9A
+0020  12 01 57 12 01 9A 12 01 87 FB 75 84 08 90 00 06
+0030  74 08 F0 74 09 F0 90 00 01 74 82 F0 12 01 9A 90
+0040  00 06 74 0C F0 74 0D F0 EB 54 F0 03 03 03 03 24
+0050  30 90 00 01 F0 12 01 9A 90 00 06 74 0C F0 74 0D
+0060  F0 EB 54 0F 24 30 90 00 01 F0 74 00 12 01 22 12
+0070  01 76 74 A0 12 01 37 12 01 9A 74 03 12 01 37 12
+0080  01 9A 12 01 76 74 A1 12 01 37 12 01 9A 12 01 57
+0090  12 01 9A 12 01 87 FB 90 00 06 74 0C F0 74 0D F0
+00A0  EB 54 F0 03 03 03 03 24 30 90 00 01 F0 12 01 9A
+00B0  90 00 06 74 0C F0 74 0D F0 EB 54 0F 24 30 90 00
+00C0  01 F0 74 00 12 01 22 12 01 76 74 A0 12 01 37 12
+00D0  01 9A 74 02 12 01 37 12 01 9A 12 01 76 74 A1 12
+00E0  01 37 12 01 9A 12 01 57 12 01 9A 12 01 87 FB 90
+00F0  00 06 74 0C F0 74 0D F0 EB 54 F0 03 03 03 03 24
+0100  30 90 00 01 F0 12 01 9A 90 00 06 74 0C F0 74 0D
+0110  F0 EB 54 0F 24 30 90 00 01 F0 74 00 12 01 9A 02
+0120  00 02 12 01 9A 90 00 06 74 0C F0 74 0D F0 74 2D
+0130  90 00 01 F0 12 01 9A 75 31 08 D2 EE C2 ED 33 92
+0140  EF D2 ED C2 ED D5 31 F6 C2 EE D2 ED 12 01 9A 30
+0150  EC 02 D2 00 C2 ED 22 E5 00 75 31 08 C2 EE C2 ED
+0160  D2 ED C2 ED A2 EC 33 D5 31 F6 D2 EE D2 EF D2 ED
+0170  12 01 9A C2 ED 22 D2 EE D2 EF D2 ED 12 01 9A C2
+0180  EF 12 01 9A C2 ED 22 D2 EE C2 ED C2 EF D2 ED 12
+0190  01 9A D2 EF 12 01 9A C2 EE 22 C0 D0 D2 D3 C2 D4
+01A0  79 08 78 0F D8 FE D9 FA D0 D0 22 00 00 00 00 00
+
+
+tasm: Number of errors = 0
